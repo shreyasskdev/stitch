@@ -199,9 +199,30 @@ footer > div > .policies > ul, footer > div > .contacts > ul {
     box-sizing: border-box;
 }
 
+dialog{
+    opacity: 0;
+    transform: translate(0%, 30px);
+}
+
 dialog[open] {
     display: flex;
     border: none;
+
+    animation: fadein 500ms ease forwards;
+}
+
+@keyframes fadein{
+    0%{
+        opacity:0;
+        transform: translate(0%, 30px);
+    }
+    70%{
+        opacity: 1;
+    }
+    100%{
+        opacity:1;
+        transform: translate(0%, 0%);
+    }
 }
 
 .hidden, .hidden-swipe {
