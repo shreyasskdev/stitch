@@ -10,6 +10,104 @@ import (
 templ Item(product models.Product, stock map[string]int) {
     @layout.User() {
         <link rel="stylesheet" href="/static/styles/user/item.css">
+        <script src="/static/scripts/shirt-size.js"></script>
+        <script defer>
+            function handleCalculateSize() {
+                const formData = {
+                    gender: document.getElementById('gender').value,
+                    age: parseInt(document.getElementById('age').value),
+                    height: parseInt(document.getElementById('height').value),
+                    weight: parseInt(document.getElementById('weight').value),
+                    abdomen: document.getElementById('abdomen').value,
+                    chest: document.getElementById('chest').value,
+                    fitPreference: document.getElementById('fitPreference').value,
+                };
+
+                const result = calculateSize(formData);
+
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('recommendedSize').innerText = `Recommended Size: ${result.recommendedSize}`;
+                document.getElementById('baseSize').innerText = `Base Size: ${result.baseSize}`;
+            }
+
+            function validateStep(stepIndex) {
+                const steps = document.querySelectorAll('.step');
+                const inputs = steps[stepIndex].querySelectorAll('input, select');
+                let isValid = true;
+
+                for (const input of inputs) {
+                    if (!input.checkValidity()) {
+                        isValid = false;
+                        input.classList.add('invalid');
+                        input.addEventListener('input', () => input.classList.remove('invalid'), { once: true });
+                    }
+                }
+
+                return isValid;
+            }
+
+            function useRecommendedSize() {
+                const recommendedSize = document.getElementById('recommendedSize').textContent.replace('Recommended Size: ', '').trim().toLowerCase();
+
+                const stock = {
+                    s: document.querySelector('#s').disabled ? 0 : 1,
+                    m: document.querySelector('#m').disabled ? 0 : 1,
+                    l: document.querySelector('#l').disabled ? 0 : 1,
+                    xl: document.querySelector('#xl').disabled ? 0 : 1,
+                    xxl: document.querySelector('#xxl').disabled ? 0 : 1,
+                    xxxl: document.querySelector('#xxxl').disabled ? 0 : 1
+                };
+
+                if (stock[recommendedSize] !== 0) {
+                    const sizeRadioButton = document.querySelector(`input[name="size"][value="${recommendedSize}"]`);
+                    if (sizeRadioButton) {
+                        sizeRadioButton.checked = true;
+                    }
+                } else {
+                    alert("Out of stock")
+                }
+            }
+
+            let currentStep = 0;
+
+            function stepReset(){
+                currentStep=0;
+                showStep(0)
+            }
+
+            function showStep(stepIndex) {
+                const steps = document.querySelectorAll('.step');
+                steps.forEach((step, index) => {
+                    step.classList.remove('active');
+                    if (index === stepIndex) {
+                        step.classList.add('active');
+                    }
+                });
+            }
+
+            function nextStep() {
+                const steps = document.querySelectorAll('.step');
+                if (validateStep(currentStep) && currentStep < steps.length - 1) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            }
+
+            function prevStep() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            }
+
+            function closeClothingSizeDialog() {
+                let dialog = document.getElementById("clothingSizeDialog");
+                stepReset();
+                dialog.close();
+            }
+
+                
+        </script>
         <div class={Container()}>
 
         @ImageCarousel(product)
@@ -23,7 +121,89 @@ templ Item(product models.Product, stock map[string]int) {
                 <p>{product.Description}</p>
                 <p class="no-line-height" onclick={clothingSizeDialog()}>
                     Size: 
-                    // <button>help</button>
+                    <button>help</button>
+                    <dialog id="clothingSizeDialog">
+                        <div class="size-recommend">
+                            <form onsubmit="event.preventDefault()" novalidate>
+                                <section class="step active">
+                                    <h1 align="center">Basic Details</h1>
+                                    <div class="input-group">
+                                        <label for="gender">Gender</label>
+                                        <select id="gender" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="age">Age</label>
+                                        <input type="number" id="age" placeholder="Age" required min="16" max="80" step="1">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="height">Height (cm)</label>
+                                        <input type="number" id="height" placeholder="Height (cm)" required min="140" max="200" step="1">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="weight">Weight (kg)</label>
+                                        <input type="number" id="weight" placeholder="Weight (kg)" required min="30" max="150" step="1">
+                                    </div>
+                                    <div class="button-container">
+                                        <button  class="button-primary" onclick="nextStep()">Next</button>
+                                        <button class="button-secondary" onclick={closeClothingSizeDialog()}>Close</button>
+                                    </div>
+                                </section>
+                                <section class="step">
+                                    <h1 align="center">Physical Attributes</h1>
+                                    <div class="input-group">
+                                        <label for="abdomen">Abdomen Shape</label>
+                                        <select id="abdomen" required>
+                                            <option value="">Abdomen Shape</option>
+                                            <option value="flat">Flat</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="building">Building</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="chest">Chest Shape</label>
+                                        <select id="chest" required>
+                                            <option value="">Chest Shape</option>
+                                            <option value="narrow">Narrow</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="wide">Wide</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="fitPreference">Fit Preference</label>
+                                        <select id="fitPreference" required>
+                                            <option value="">Fit Preference</option>
+                                            <option value="very_fitted">Very Fitted</option>
+                                            <option value="fitted">Fitted</option>
+                                            <option value="normal">Normal</option>
+                                            <option value="loose">Loose</option>
+                                            <option value="very_loose">Very Loose</option>
+                                        </select>
+                                    </div>
+                                    <div class="button-container">
+                                        <button class="button-primary" onclick="handleCalculateSize(); nextStep()">Next</button>
+                                        <button class="button-secondary" onclick="prevStep()">Previous</button>
+                                        <button class="button-secondary" type="submit" onclick={closeClothingSizeDialog()}>Close</button>
+                                    </div>
+                                </section>
+                                <section class="step">
+                                    // <h1 align="center">Preferences</h1>
+                                    <div class="result" id="result">
+                                        <h3 id="recommendedSize">Recommended Size: </h3>
+                                        <p id="baseSize">Base Size: </p>
+                                    </div>
+                                    <div class="button-container">
+                                        <button class="button-primary" onclick="useRecommendedSize(); closeClothingSizeDialog()" >Use Recommended size</button>
+                                        <button class="button-secondary" onclick="prevStep()">Previous</button>
+                                        <button class="button-secondary" onclick={closeClothingSizeDialog()}>Close</button>
+                                    </div>
+                                </section>
+                            </form>
+                        </div>  
+                    </dialog>
                 </p>
             </span>
             <form name="item-order" hx-on::validation:validate="!document.querySelector('input[name=size]:checked') && document.querySelector('input[name=size]').reportValidity()">
@@ -109,6 +289,11 @@ templ Item(product models.Product, stock map[string]int) {
 script clothingSizeDialog() {
     let dialog = document.getElementById("clothingSizeDialog");
     dialog.showModal();
+}
+script closeClothingSizeDialog() {
+    let dialog = document.getElementById("clothingSizeDialog");
+    stepReset();
+    dialog.close();
 }
 
 templ ImageCarousel(product models.Product) {
