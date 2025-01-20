@@ -30,12 +30,12 @@ func Run(port string) {
 	// echo routes
 	app.GET("/", handler.Home)
 	app.GET("/products", handler.Products)
-	app.GET("/products/cart", handler.Cart)
 	app.GET("/item/:productId", handler.Item)
 	app.GET("/order/:productId", handler.OrderGet)
 	app.POST("/order/:productId", handler.OrderPost)
 	app.GET("/about", handler.About)
 	app.GET("/collections", handler.CommingSoon)
+	app.GET("/cart", handler.Cart)
 	app.GET("add-to-cart/:productId", handler.AddToCart)
 	app.DELETE("delete-cart/:productId", handler.DeleteFromCart)
 
