@@ -39,7 +39,7 @@ templ OrdersCard(order models.Order) {
             Size: {strings.ToUpper(order.Size)}
         </div>
         <div>
-            <button class="button-primary" hx-get={fmt.Sprintf("/admin/change-order-status/%s?status=%s", order.Id, "shipped")} hx-swap="outerHTML" hx-target="closest .orders">Mark as Shipped</button>
+            <button class="button-primary" hx-get={fmt.Sprintf("/admin/change-order-status/%s?status=%s&productId=%s", order.Id, "shipped", order.ProductId)} hx-swap="outerHTML" hx-target="closest .orders">Mark as Shipped</button>
             <button class="button-secondary" hx-get={fmt.Sprintf("/admin/item/%s", order.ProductId)} hx-push-url={fmt.Sprintf("/admin/item/%s", order.ProductId)} hx-target="body" >View Product</button>
         </div>
     </div>

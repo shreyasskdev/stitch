@@ -37,7 +37,7 @@ templ DeliveredCard(order models.Order) {
             Status: {order.Status}
         </div>
         <div>
-            <button class="button-primary" hx-delete={fmt.Sprintf("/admin/delete-order/%s", order.Id)} hx-swap="outerHTML" hx-target="closest .orders">Delete</button>
+            <button class="button-primary" hx-delete={fmt.Sprintf("/admin/delete-order/%s?productId=%s", order.Id, order.ProductId)} hx-swap="outerHTML" hx-target="closest .orders">Delete</button>
             <button class="button-secondary" hx-get={fmt.Sprintf("/admin/item/%s", order.ProductId)} hx-push-url={fmt.Sprintf("/admin/item/%s", order.ProductId)} hx-target="body" >View Product</button>
         </div>
     </div>

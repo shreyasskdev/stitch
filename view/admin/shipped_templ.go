@@ -237,9 +237,9 @@ func ShippedCard(order models.Order) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var15 string
-		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/admin/change-order-status/%s?status=%s", order.Id, "delivered"))
+		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/admin/change-order-status/%s?status=%s&productId=%s", order.Id, "delivered", order.ProductId))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/admin/shipped.templ`, Line: 40, Col: 128}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/admin/shipped.templ`, Line: 40, Col: 158}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {

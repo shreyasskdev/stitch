@@ -272,8 +272,9 @@ func AdminOrders(c echo.Context) error {
 
 func AdminChangeOrderStatus(c echo.Context) error {
 	var status = c.QueryParam("status")
+	var productId = c.QueryParam("productId")
 	var id = c.Param("orderId")
-	var err = mysql.ChangeOrderStatus(id, status)
+	var err = mysql.ChangeOrderStatus(id, productId, status)
 	if err != nil {
 		fmt.Println(err)
 		return c.JSON(501, "Failed")
@@ -317,7 +318,8 @@ func AdminDelivered(c echo.Context) error {
 
 func DeleteOrder(c echo.Context) error {
 	var id = c.Param("orderId")
-	var err = mysql.DeleteOrder(id)
+	var productId = c.QueryParam("productId")
+	var err = mysql.DeleteOrder(id, productId)
 	if err != nil {
 		fmt.Println(err)
 		return c.JSON(501, "Failed")
