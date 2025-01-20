@@ -1,0 +1,45 @@
+package user
+
+import (
+    "fmt"
+ 
+    "github.com/FulgurCode/stitch/view/layout"
+    "github.com/FulgurCode/stitch/models"
+)
+
+
+templ CartOrder(products []models.Product) {
+    @layout.User() {
+        <link rel="stylesheet" href="/static/styles/user/order.css">
+        <div class={Container()}>
+            <h1>Place Order</h1>
+            <div class="order-container">
+                <div class="product-card">
+                    for _, product := range products {
+                        <hr>
+                        <img src={"/static/images/"+product.Id+"-main"}>
+                        <div>
+                            <p class="name">{product.Name}</p>
+                            <h3 class="price">&#8360;. {fmt.Sprintf("%d",product.Price)}</h3>
+                        </div>
+                        <hr>
+                    }
+                </div>
+                <form hx-post="/order-cart">
+                    <input type="text" name="name" placeholder="Name"/>
+                    <textarea name="address" placeholder="Adress"></textarea>
+                    <input type="text" name="house" placeholder="House no. or House name"/>
+                    <input type="text" name="pin" placeholder="Pin code"/>
+                    <input type="text" name="city" placeholder="City"/>
+                    <input type="tel" name="phone" placeholder="Phone no."/>
+                    <input type="number" name="quantity" placeholder="Quantity"/>
+                    <select name="payment" placeholder="Delivery method">
+                        <option value="cod">Cash on delivery</option>
+                        <option value="online">Credit card</option>
+                    </select>
+                    <button type="submit" class="button-primary" style="margin-top: 2rem;">Place Order</button>
+                </form>
+            </div>
+        </div>
+    }
+}

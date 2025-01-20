@@ -169,3 +169,21 @@ func DeleteFromCart(c echo.Context) error {
 	utils.DeleteSessionValue(c, "cart", id)
 	return c.NoContent(200)
 }
+
+func CartOrderGet(c echo.Context) error {
+	var cart = utils.GetSessionAll(c, "cart")
+	var products []models.Product
+	for id, size := range cart {
+		var product, err = mysql.GetProductById(id.(string))
+		product.Size = size.(string)
+		if err != nil {
+			fmt.Println(err)
+			var component = user.Cart(products)
+			return utils.Render(c, component)
+		}
+		products = append(products, product)
+	}
+
+	var component = user.CartOrder(products)
+	return utils.Render(c, component)
+}

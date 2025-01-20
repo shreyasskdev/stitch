@@ -24,7 +24,7 @@ templ Cart(products []models.Product) {
                                     @CartCard(product)
                                 }
                             </div>
-                            <button class="button-primary" style="align-self:last baseline;">Buy All</button>
+                            <button class="button-primary" style="align-self:last baseline;" hx-get="/cart/order" hx-target="body" hx-push-url="/cart/order" >Buy All</button>
                         </span>
                     }
                 
