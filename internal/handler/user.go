@@ -9,6 +9,7 @@ import (
 	"github.com/FulgurCode/stitch/utils"
 	"github.com/FulgurCode/stitch/view/layout"
 	"github.com/FulgurCode/stitch/view/user"
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
@@ -92,7 +93,8 @@ func OrderPost(c echo.Context) error {
 	}
 	order.Total = product.Price * order.Quantity
 
-	err = mysql.MakeOrder(order)
+	var orderId = uuid.New()
+	err = mysql.MakeOrder(order, orderId)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -186,4 +188,39 @@ func CartOrderGet(c echo.Context) error {
 
 	var component = user.CartOrder(products)
 	return utils.Render(c, component)
+}
+
+func CartOrderPost(c echo.Context) error {
+	var body models.Order
+	var err = c.Bind(&body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var cart = utils.GetSessionAll(c, "cart")
+	var orderId = uuid.New()
+	for id, size := range cart {
+		var product, _ = mysql.GetProductById(id.(string))
+		var order models.Order = body
+
+		order.ProductId = product.Id
+		order.Status = "ordered"
+		order.Quantity = 1
+		order.Total = product.Price
+		order.Size = size.(string)
+
+		err = mysql.MakeOrder(order, orderId)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	utils.DeleteSession(c, "cart")
+
+	if c.Request().Header.Get("HX-Request") == "true" {
+		c.Response().Header().Set("HX-Location", "/cart")
+		return c.NoContent(http.StatusSeeOther)
+	}
+
+	return c.Redirect(http.StatusSeeOther, "/cart")
 }

@@ -25,14 +25,13 @@ templ CartOrder(products []models.Product) {
                         <hr>
                     }
                 </div>
-                <form hx-post="/order-cart">
+                <form hx-post="/cart/order">
                     <input type="text" name="name" placeholder="Name"/>
                     <textarea name="address" placeholder="Adress"></textarea>
                     <input type="text" name="house" placeholder="House no. or House name"/>
                     <input type="text" name="pin" placeholder="Pin code"/>
                     <input type="text" name="city" placeholder="City"/>
                     <input type="tel" name="phone" placeholder="Phone no."/>
-                    <input type="number" name="quantity" placeholder="Quantity"/>
                     <select name="payment" placeholder="Delivery method">
                         <option value="cod">Cash on delivery</option>
                         <option value="online">Credit card</option>

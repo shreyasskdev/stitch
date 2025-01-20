@@ -2,11 +2,12 @@ package mysql
 
 import (
 	"github.com/FulgurCode/stitch/models"
+	"github.com/google/uuid"
 )
 
-func MakeOrder(order models.Order) error {
-	var query = "INSERT INTO orders(id,product_id,name,address,house,pin,city,phone,size,payment,quantity,total,status) VALUES(uuid(),?,?,?,?,?,?,?,?,?,?,?,?);"
-	var _, err = Db.Exec(query, order.ProductId, order.Name, order.Address, order.House, order.Pin, order.City, order.Phone, order.Size, order.Payment, order.Quantity, order.Total, order.Status)
+func MakeOrder(order models.Order,id uuid.UUID) error {
+	var query = "INSERT INTO orders(id,product_id,name,address,house,pin,city,phone,size,payment,quantity,total,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);"
+	var _, err = Db.Exec(query, id, order.ProductId, order.Name, order.Address, order.House, order.Pin, order.City, order.Phone, order.Size, order.Payment, order.Quantity, order.Total, order.Status)
 
 	return err
 }

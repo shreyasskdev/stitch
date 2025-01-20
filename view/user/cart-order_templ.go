@@ -119,7 +119,7 @@ func CartOrder(products []models.Product) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div><form hx-post=\"/order-cart\"><input type=\"text\" name=\"name\" placeholder=\"Name\"> <textarea name=\"address\" placeholder=\"Adress\"></textarea> <input type=\"text\" name=\"house\" placeholder=\"House no. or House name\"> <input type=\"text\" name=\"pin\" placeholder=\"Pin code\"> <input type=\"text\" name=\"city\" placeholder=\"City\"> <input type=\"tel\" name=\"phone\" placeholder=\"Phone no.\"> <input type=\"number\" name=\"quantity\" placeholder=\"Quantity\"> <select name=\"payment\" placeholder=\"Delivery method\"><option value=\"cod\">Cash on delivery</option> <option value=\"online\">Credit card</option></select> <button type=\"submit\" class=\"button-primary\" style=\"margin-top: 2rem;\">Place Order</button></form></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</div><form hx-post=\"/cart/order\"><input type=\"text\" name=\"name\" placeholder=\"Name\"> <textarea name=\"address\" placeholder=\"Adress\"></textarea> <input type=\"text\" name=\"house\" placeholder=\"House no. or House name\"> <input type=\"text\" name=\"pin\" placeholder=\"Pin code\"> <input type=\"text\" name=\"city\" placeholder=\"City\"> <input type=\"tel\" name=\"phone\" placeholder=\"Phone no.\"> <select name=\"payment\" placeholder=\"Delivery method\"><option value=\"cod\">Cash on delivery</option> <option value=\"online\">Credit card</option></select> <button type=\"submit\" class=\"button-primary\" style=\"margin-top: 2rem;\">Place Order</button></form></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
