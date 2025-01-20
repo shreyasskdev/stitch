@@ -48,7 +48,7 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<link rel=\"stylesheet\" href=\"/static/styles/user/item.css\"><script src=\"/static/scripts/shirt-size.js\"></script> <script defer>\n            function handleCalculateSize() {\n                const formData = {\n                    gender: document.getElementById('gender').value,\n                    age: parseInt(document.getElementById('age').value),\n                    height: parseInt(document.getElementById('height').value),\n                    weight: parseInt(document.getElementById('weight').value),\n                    abdomen: document.getElementById('abdomen').value,\n                    chest: document.getElementById('chest').value,\n                    fitPreference: document.getElementById('fitPreference').value,\n                };\n\n                const result = calculateSize(formData);\n\n                document.getElementById('result').style.display = 'block';\n                document.getElementById('recommendedSize').innerText = `Recommended Size: ${result.recommendedSize}`;\n                document.getElementById('baseSize').innerText = `Base Size: ${result.baseSize}`;\n            }\n\n            function validateStep(stepIndex) {\n                const steps = document.querySelectorAll('.step');\n                const inputs = steps[stepIndex].querySelectorAll('input, select');\n                let isValid = true;\n\n                for (const input of inputs) {\n                    if (!input.checkValidity()) {\n                        isValid = false;\n                        input.classList.add('invalid');\n                        input.addEventListener('input', () => input.classList.remove('invalid'), { once: true });\n                    }\n                }\n\n                return isValid;\n            }\n\n            function useRecommendedSize() {\n                const recommendedSize = document.getElementById('recommendedSize').textContent.replace('Recommended Size: ', '').trim().toLowerCase();\n\n                const stock = {\n                    s: document.querySelector('#s').disabled ? 0 : 1,\n                    m: document.querySelector('#m').disabled ? 0 : 1,\n                    l: document.querySelector('#l').disabled ? 0 : 1,\n                    xl: document.querySelector('#xl').disabled ? 0 : 1,\n                    xxl: document.querySelector('#xxl').disabled ? 0 : 1,\n                    xxxl: document.querySelector('#xxxl').disabled ? 0 : 1\n                };\n\n                if (stock[recommendedSize] !== 0) {\n                    const sizeRadioButton = document.querySelector(`input[name=\"size\"][value=\"${recommendedSize}\"]`);\n                    if (sizeRadioButton) {\n                        sizeRadioButton.checked = true;\n                    }\n                } else {\n                    alert(\"Out of stock\")\n                }\n            }\n\n            let currentStep = 0;\n\n            function stepReset(){\n                currentStep=0;\n                showStep(0)\n            }\n\n            function showStep(stepIndex) {\n                const steps = document.querySelectorAll('.step');\n                steps.forEach((step, index) => {\n                    step.classList.remove('active');\n                    if (index === stepIndex) {\n                        step.classList.add('active');\n                    }\n                });\n            }\n\n            function nextStep() {\n                const steps = document.querySelectorAll('.step');\n                if (validateStep(currentStep) && currentStep < steps.length - 1) {\n                    currentStep++;\n                    showStep(currentStep);\n                }\n            }\n\n            function prevStep() {\n                if (currentStep > 0) {\n                    currentStep--;\n                    showStep(currentStep);\n                }\n            }\n\n            function closeClothingSizeDialog() {\n                let dialog = document.getElementById(\"clothingSizeDialog\");\n                stepReset();\n                dialog.close();\n            }\n\n                \n        </script> ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<link rel=\"stylesheet\" href=\"/static/styles/user/item.css\"><script src=\"/static/scripts/shirt-size.js\"></script> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -85,7 +85,7 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(product.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 117, Col: 82}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 20, Col: 82}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -98,7 +98,7 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", product.Price))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 120, Col: 109}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 23, Col: 109}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -111,7 +111,7 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(product.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 121, Col: 39}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 24, Col: 39}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -134,7 +134,7 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">Size:  <button>help</button> <dialog id=\"clothingSizeDialog\"><div class=\"size-recommend\"><form onsubmit=\"event.preventDefault()\" novalidate><section class=\"step active\"><h1 align=\"center\">Basic Details</h1><div class=\"input-group\"><label for=\"gender\">Gender</label> <select id=\"gender\" required><option value=\"\">Select Gender</option> <option value=\"male\">Male</option> <option value=\"female\">Female</option></select></div><div class=\"input-group\"><label for=\"age\">Age</label> <input type=\"number\" id=\"age\" placeholder=\"Age\" required min=\"16\" max=\"80\" step=\"1\"></div><div class=\"input-group\"><label for=\"height\">Height (cm)</label> <input type=\"number\" id=\"height\" placeholder=\"Height (cm)\" required min=\"140\" max=\"200\" step=\"1\"></div><div class=\"input-group\"><label for=\"weight\">Weight (kg)</label> <input type=\"number\" id=\"weight\" placeholder=\"Weight (kg)\" required min=\"30\" max=\"150\" step=\"1\"></div><div class=\"button-container\"><button class=\"button-primary\" onclick=\"nextStep()\">Next</button> ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">Size:  <button class=\"button-secondary\" style=\"margin-left: var(--padding); padding-inline: var(--padding)\">help</button> <dialog id=\"clothingSizeDialog\"><div class=\"size-recommend\"><form onsubmit=\"event.preventDefault()\" novalidate><section class=\"step active\"><h1 align=\"center\">Basic Details</h1><div class=\"input-group\"><label for=\"gender\">Gender</label> <select id=\"gender\" required><option value=\"\">Select Gender</option> <option value=\"male\">Male</option> <option value=\"female\">Female</option></select></div><div class=\"input-group\"><label for=\"age\">Age</label> <input type=\"number\" id=\"age\" placeholder=\"Age\" required min=\"16\" max=\"80\" step=\"1\"></div><div class=\"input-group\"><label for=\"height\">Height (cm)</label> <input type=\"number\" id=\"height\" placeholder=\"Height (cm)\" required min=\"140\" max=\"200\" step=\"1\"></div><div class=\"input-group\"><label for=\"weight\">Weight (kg)</label> <input type=\"number\" id=\"weight\" placeholder=\"Weight (kg)\" required min=\"30\" max=\"150\" step=\"1\"></div><div class=\"button-container\"><button class=\"button-primary\" onclick=\"nextStep()\">Next</button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -255,14 +255,14 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "</div><span><button class=\"button-primary\" hx-include=\"closest form\" hx-get=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "</div><span><button id=\"buy-button\" class=\"button-primary\" hx-include=\"closest form\" hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/order/%s", product.Id))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 279, Col: 121}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 186, Col: 68}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -275,26 +275,26 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/order/%s", product.Id))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 279, Col: 189}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 187, Col: 90}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\" hx-validate=\"true\">BUY</button> <button hx-include=\"closest form\" hx-get=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\" hx-validate=\"true\">BUY</button> <button id=\"cart-button\" hx-include=\"closest form\" hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/add-to-cart/%s", product.Id))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 280, Col: 104}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 193, Col: 74}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\" hx-swap=\"none\" hx-on::after-request=\"showToast(&#39;Product Added to your Cart&#39;, &#39;success&#39;)\" class=\"button-secondary\" hx-validate=\"true\">Add to Cart</button></span></form><br></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\" hx-swap=\"none\" hx-on::after-request=\"showToast(&#39;Product Added to your Cart&#39;, &#39;success&#39;)\" class=\"button-secondary\" hx-validate=\"true\">Add to Cart</button></span></form><br></div></div><script defer>\n            function checkAllSizesDisabled() {\n                const sizeInputs = document.querySelectorAll('input[name=\"size\"]');\n                const allDisabled = Array.from(sizeInputs).every(input => input.disabled);\n                \n                const buyButton = document.getElementById('buy-button');\n                const cartButton = document.getElementById('cart-button');\n                \n                if (allDisabled) {\n                    buyButton.disabled = true;\n                    cartButton.disabled = true;\n                    \n                    // Remove HTMX attributes to prevent interactions\n                    buyButton.removeAttribute('hx-get');\n                    buyButton.removeAttribute('hx-target');\n                    buyButton.removeAttribute('hx-push-url');\n                    cartButton.removeAttribute('hx-get');\n                    cartButton.removeAttribute('hx-swap');\n                    \n                    buyButton.classList.add('disabled');\n                    cartButton.classList.add('disabled');\n                }\n            }\n            document.addEventListener('DOMContentLoaded', checkAllSizesDisabled);\n            document.addEventListener('htmx:afterSettle', checkAllSizesDisabled);\n\n            function handleCalculateSize() {\n                const formData = {\n                    gender: document.getElementById('gender').value,\n                    age: parseInt(document.getElementById('age').value),\n                    height: parseInt(document.getElementById('height').value),\n                    weight: parseInt(document.getElementById('weight').value),\n                    abdomen: document.getElementById('abdomen').value,\n                    chest: document.getElementById('chest').value,\n                    fitPreference: document.getElementById('fitPreference').value,\n                };\n\n                const result = calculateSize(formData);\n\n                document.getElementById('result').style.display = 'block';\n                document.getElementById('recommendedSize').innerText = `Recommended Size: ${result.recommendedSize}`;\n                document.getElementById('baseSize').innerText = `Base Size: ${result.baseSize}`;\n            }\n\n            function validateStep(stepIndex) {\n                const steps = document.querySelectorAll('.step');\n                const inputs = steps[stepIndex].querySelectorAll('input, select');\n                let isValid = true;\n\n                for (const input of inputs) {\n                    if (!input.checkValidity()) {\n                        isValid = false;\n                        input.classList.add('invalid');\n                        input.addEventListener('input', () => input.classList.remove('invalid'), { once: true });\n                    }\n                }\n\n                return isValid;\n            }\n\n            function useRecommendedSize() {\n                const recommendedSize = document.getElementById('recommendedSize').textContent.replace('Recommended Size: ', '').trim().toLowerCase();\n\n                const stock = {\n                    s: document.querySelector('#s').disabled ? 0 : 1,\n                    m: document.querySelector('#m').disabled ? 0 : 1,\n                    l: document.querySelector('#l').disabled ? 0 : 1,\n                    xl: document.querySelector('#xl').disabled ? 0 : 1,\n                    xxl: document.querySelector('#xxl').disabled ? 0 : 1,\n                    xxxl: document.querySelector('#xxxl').disabled ? 0 : 1\n                };\n\n                if (stock[recommendedSize] !== 0) {\n                    const sizeRadioButton = document.querySelector(`input[name=\"size\"][value=\"${recommendedSize}\"]`);\n                    if (sizeRadioButton) {\n                        sizeRadioButton.checked = true;\n                    }\n                } else {\n                    showToast(\"Recomended size is not available\", \"error\")\n                }\n            }\n\n            let currentStep = 0;\n\n            function stepReset(){\n                currentStep=0;\n                showStep(0)\n            }\n\n            function showStep(stepIndex) {\n                const steps = document.querySelectorAll('.step');\n                steps.forEach((step, index) => {\n                    step.classList.remove('active');\n                    if (index === stepIndex) {\n                        step.classList.add('active');\n                    }\n                });\n            }\n\n            function nextStep() {\n                const steps = document.querySelectorAll('.step');\n                if (validateStep(currentStep) && currentStep < steps.length - 1) {\n                    currentStep++;\n                    showStep(currentStep);\n                }\n            }\n\n            function prevStep() {\n                if (currentStep > 0) {\n                    currentStep--;\n                    showStep(currentStep);\n                }\n            }\n\n            function closeClothingSizeDialog() {\n                let dialog = document.getElementById(\"clothingSizeDialog\");\n                stepReset();\n                dialog.close();\n            }\n\n                \n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -359,7 +359,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-main")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 303, Col: 58}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 342, Col: 58}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -372,7 +372,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-main")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 308, Col: 62}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 347, Col: 62}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -385,7 +385,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var18 string
 		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-1")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 309, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 348, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 		if templ_7745c5c3_Err != nil {
@@ -398,7 +398,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-2")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 310, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 349, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
@@ -411,7 +411,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var20 string
 		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-3")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 311, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 350, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 		if templ_7745c5c3_Err != nil {
@@ -424,7 +424,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var21 string
 		templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-4")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 312, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 351, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
 		if templ_7745c5c3_Err != nil {
@@ -437,7 +437,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var22 string
 		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-5")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 313, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 352, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 		if templ_7745c5c3_Err != nil {
@@ -450,7 +450,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var23 string
 		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-6")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 314, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 353, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 		if templ_7745c5c3_Err != nil {
@@ -463,7 +463,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var24 string
 		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-7")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 315, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 354, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 		if templ_7745c5c3_Err != nil {
@@ -476,7 +476,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var25 string
 		templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-8")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 316, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 355, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 		if templ_7745c5c3_Err != nil {
@@ -489,7 +489,7 @@ func ImageCarousel(product models.Product) templ.Component {
 		var templ_7745c5c3_Var26 string
 		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs("/static/images/" + product.Id + "-9")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 317, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 356, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 		if templ_7745c5c3_Err != nil {

@@ -11,103 +11,6 @@ templ Item(product models.Product, stock map[string]int) {
     @layout.User() {
         <link rel="stylesheet" href="/static/styles/user/item.css">
         <script src="/static/scripts/shirt-size.js"></script>
-        <script defer>
-            function handleCalculateSize() {
-                const formData = {
-                    gender: document.getElementById('gender').value,
-                    age: parseInt(document.getElementById('age').value),
-                    height: parseInt(document.getElementById('height').value),
-                    weight: parseInt(document.getElementById('weight').value),
-                    abdomen: document.getElementById('abdomen').value,
-                    chest: document.getElementById('chest').value,
-                    fitPreference: document.getElementById('fitPreference').value,
-                };
-
-                const result = calculateSize(formData);
-
-                document.getElementById('result').style.display = 'block';
-                document.getElementById('recommendedSize').innerText = `Recommended Size: ${result.recommendedSize}`;
-                document.getElementById('baseSize').innerText = `Base Size: ${result.baseSize}`;
-            }
-
-            function validateStep(stepIndex) {
-                const steps = document.querySelectorAll('.step');
-                const inputs = steps[stepIndex].querySelectorAll('input, select');
-                let isValid = true;
-
-                for (const input of inputs) {
-                    if (!input.checkValidity()) {
-                        isValid = false;
-                        input.classList.add('invalid');
-                        input.addEventListener('input', () => input.classList.remove('invalid'), { once: true });
-                    }
-                }
-
-                return isValid;
-            }
-
-            function useRecommendedSize() {
-                const recommendedSize = document.getElementById('recommendedSize').textContent.replace('Recommended Size: ', '').trim().toLowerCase();
-
-                const stock = {
-                    s: document.querySelector('#s').disabled ? 0 : 1,
-                    m: document.querySelector('#m').disabled ? 0 : 1,
-                    l: document.querySelector('#l').disabled ? 0 : 1,
-                    xl: document.querySelector('#xl').disabled ? 0 : 1,
-                    xxl: document.querySelector('#xxl').disabled ? 0 : 1,
-                    xxxl: document.querySelector('#xxxl').disabled ? 0 : 1
-                };
-
-                if (stock[recommendedSize] !== 0) {
-                    const sizeRadioButton = document.querySelector(`input[name="size"][value="${recommendedSize}"]`);
-                    if (sizeRadioButton) {
-                        sizeRadioButton.checked = true;
-                    }
-                } else {
-                    alert("Out of stock")
-                }
-            }
-
-            let currentStep = 0;
-
-            function stepReset(){
-                currentStep=0;
-                showStep(0)
-            }
-
-            function showStep(stepIndex) {
-                const steps = document.querySelectorAll('.step');
-                steps.forEach((step, index) => {
-                    step.classList.remove('active');
-                    if (index === stepIndex) {
-                        step.classList.add('active');
-                    }
-                });
-            }
-
-            function nextStep() {
-                const steps = document.querySelectorAll('.step');
-                if (validateStep(currentStep) && currentStep < steps.length - 1) {
-                    currentStep++;
-                    showStep(currentStep);
-                }
-            }
-
-            function prevStep() {
-                if (currentStep > 0) {
-                    currentStep--;
-                    showStep(currentStep);
-                }
-            }
-
-            function closeClothingSizeDialog() {
-                let dialog = document.getElementById("clothingSizeDialog");
-                stepReset();
-                dialog.close();
-            }
-
-                
-        </script>
         <div class={Container()}>
 
         @ImageCarousel(product)
@@ -121,7 +24,7 @@ templ Item(product models.Product, stock map[string]int) {
                 <p>{product.Description}</p>
                 <p class="no-line-height" onclick={clothingSizeDialog()}>
                     Size: 
-                    <button>help</button>
+                    <button class="button-secondary" style="margin-left: var(--padding); padding-inline: var(--padding)">help</button>
                     <dialog id="clothingSizeDialog">
                         <div class="size-recommend">
                             <form onsubmit="event.preventDefault()" novalidate>
@@ -276,13 +179,149 @@ templ Item(product models.Product, stock map[string]int) {
                     }
                 </div>
                 <span>
-                    <button class="button-primary" hx-include="closest form" hx-get={fmt.Sprintf("/order/%s", product.Id)} hx-target="body" hx-push-url={fmt.Sprintf("/order/%s", product.Id)} hx-validate="true">BUY</button>
-                    <button hx-include="closest form" hx-get={fmt.Sprintf("/add-to-cart/%s", product.Id)} hx-swap="none" hx-on::after-request="showToast('Product Added to your Cart', 'success')" class="button-secondary" hx-validate="true">Add to Cart</button>
+                    <button 
+                        id="buy-button"
+                        class="button-primary" 
+                        hx-include="closest form" 
+                        hx-get={fmt.Sprintf("/order/%s", product.Id)} 
+                        hx-target="body" hx-push-url={fmt.Sprintf("/order/%s", product.Id)} 
+                        hx-validate="true"
+                    >BUY</button>
+                    <button 
+                        id="cart-button" 
+                        hx-include="closest form" 
+                        hx-get={fmt.Sprintf("/add-to-cart/%s", product.Id)} 
+                        hx-swap="none" hx-on::after-request="showToast('Product Added to your Cart', 'success')" 
+                        class="button-secondary" 
+                        hx-validate="true"
+                    >Add to Cart</button>
                 </span>
             </form>
             <br>
         </div>
         </div>
+        <script defer>
+            function checkAllSizesDisabled() {
+                const sizeInputs = document.querySelectorAll('input[name="size"]');
+                const allDisabled = Array.from(sizeInputs).every(input => input.disabled);
+                
+                const buyButton = document.getElementById('buy-button');
+                const cartButton = document.getElementById('cart-button');
+                
+                if (allDisabled) {
+                    buyButton.disabled = true;
+                    cartButton.disabled = true;
+                    
+                    // Remove HTMX attributes to prevent interactions
+                    buyButton.removeAttribute('hx-get');
+                    buyButton.removeAttribute('hx-target');
+                    buyButton.removeAttribute('hx-push-url');
+                    cartButton.removeAttribute('hx-get');
+                    cartButton.removeAttribute('hx-swap');
+                    
+                    buyButton.classList.add('disabled');
+                    cartButton.classList.add('disabled');
+                }
+            }
+            document.addEventListener('DOMContentLoaded', checkAllSizesDisabled);
+            document.addEventListener('htmx:afterSettle', checkAllSizesDisabled);
+
+            function handleCalculateSize() {
+                const formData = {
+                    gender: document.getElementById('gender').value,
+                    age: parseInt(document.getElementById('age').value),
+                    height: parseInt(document.getElementById('height').value),
+                    weight: parseInt(document.getElementById('weight').value),
+                    abdomen: document.getElementById('abdomen').value,
+                    chest: document.getElementById('chest').value,
+                    fitPreference: document.getElementById('fitPreference').value,
+                };
+
+                const result = calculateSize(formData);
+
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('recommendedSize').innerText = `Recommended Size: ${result.recommendedSize}`;
+                document.getElementById('baseSize').innerText = `Base Size: ${result.baseSize}`;
+            }
+
+            function validateStep(stepIndex) {
+                const steps = document.querySelectorAll('.step');
+                const inputs = steps[stepIndex].querySelectorAll('input, select');
+                let isValid = true;
+
+                for (const input of inputs) {
+                    if (!input.checkValidity()) {
+                        isValid = false;
+                        input.classList.add('invalid');
+                        input.addEventListener('input', () => input.classList.remove('invalid'), { once: true });
+                    }
+                }
+
+                return isValid;
+            }
+
+            function useRecommendedSize() {
+                const recommendedSize = document.getElementById('recommendedSize').textContent.replace('Recommended Size: ', '').trim().toLowerCase();
+
+                const stock = {
+                    s: document.querySelector('#s').disabled ? 0 : 1,
+                    m: document.querySelector('#m').disabled ? 0 : 1,
+                    l: document.querySelector('#l').disabled ? 0 : 1,
+                    xl: document.querySelector('#xl').disabled ? 0 : 1,
+                    xxl: document.querySelector('#xxl').disabled ? 0 : 1,
+                    xxxl: document.querySelector('#xxxl').disabled ? 0 : 1
+                };
+
+                if (stock[recommendedSize] !== 0) {
+                    const sizeRadioButton = document.querySelector(`input[name="size"][value="${recommendedSize}"]`);
+                    if (sizeRadioButton) {
+                        sizeRadioButton.checked = true;
+                    }
+                } else {
+                    showToast("Recomended size is not available", "error")
+                }
+            }
+
+            let currentStep = 0;
+
+            function stepReset(){
+                currentStep=0;
+                showStep(0)
+            }
+
+            function showStep(stepIndex) {
+                const steps = document.querySelectorAll('.step');
+                steps.forEach((step, index) => {
+                    step.classList.remove('active');
+                    if (index === stepIndex) {
+                        step.classList.add('active');
+                    }
+                });
+            }
+
+            function nextStep() {
+                const steps = document.querySelectorAll('.step');
+                if (validateStep(currentStep) && currentStep < steps.length - 1) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            }
+
+            function prevStep() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            }
+
+            function closeClothingSizeDialog() {
+                let dialog = document.getElementById("clothingSizeDialog");
+                stepReset();
+                dialog.close();
+            }
+
+                
+        </script>
     }
 }
 

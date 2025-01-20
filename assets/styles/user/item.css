@@ -199,3 +199,10 @@ input.invalid, select.invalid {
     text-align: center;
     opacity: .5;
 }
+
+/* Disable if out of  stock*/
+.button-primary.disabled,
+.button-secondary.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
