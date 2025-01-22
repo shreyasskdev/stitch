@@ -10,19 +10,13 @@ import (
 
 templ CartOrder(products []models.Product) {
     @layout.User() {
-        <link rel="stylesheet" href="/static/styles/user/order.css">
+        <link rel="stylesheet" href="/static/styles/user/cart-order.css">
         <div class={Container()}>
             <h1>Place Order</h1>
             <div class="order-container">
-                <div class="product-card">
+                <div class="product-card-container">
                     for _, product := range products {
-                        <hr>
-                        <img src={"/static/images/"+product.Id+"-main"}>
-                        <div>
-                            <p class="name">{product.Name}</p>
-                            <h3 class="price">&#8360;. {fmt.Sprintf("%d",product.Price)}</h3>
-                        </div>
-                        <hr>
+                        @OrdersCard(product)
                     }
                 </div>
                 <form hx-post="/cart/order">
@@ -40,5 +34,29 @@ templ CartOrder(products []models.Product) {
                 </form>
             </div>
         </div>
+        <script>
+            function emptyCallback() {
+                setTimeout(() => {
+                    if (document.querySelectorAll('.product-card-cart').length === 0) {
+                        window.location.href = '/';
+                    }
+                }, 100);
+                return true;
+            }
+        </script>
     }
+}
+
+templ OrdersCard(product models.Product) {
+    <div class="product-card-cart">
+        <img src={"/static/images/"+product.Id+"-main"}/>
+        <div>
+            <b>{product.Name}</b><br/>
+            &#8360;. {fmt.Sprintf("%d",product.Price)}
+        </div>
+        <div>
+            <button class="button-primary" hx-delete={fmt.Sprintf("/delete-cart/%s", product.Id)} hx-target="closest .product-card-cart" hx-swap="outerHTML" hx-trigger="click[emptyCallback()]">Remove Product</button>
+            <button class="button-secondary" hx-get={fmt.Sprintf("/item/%s", product.Id)} hx-push-url={fmt.Sprintf("/item/%s", product.Id)} hx-target="body" >View Product</button>
+        </div>
+    </div>
 }
