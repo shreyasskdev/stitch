@@ -91,14 +91,14 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</h1></span> <span style=\"gap: 2px;\"><p style=\"font-weight: 600;\" class=\"no-line-height\">&#8360;. ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</h1></span> <span style=\"gap: 2px;\"><p style=\"font-weight: 400; font-size: 2rem;\" class=\"no-line-height\">&#8360;. ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", product.Price))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 23, Col: 109}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `view/user/Item.templ`, Line: 23, Col: 126}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -134,7 +134,7 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">Size:  <button class=\"button-secondary\" style=\"margin-left: var(--padding); padding-inline: var(--padding)\">help</button> <dialog id=\"clothingSizeDialog\"><div class=\"size-recommend\"><form onsubmit=\"event.preventDefault()\" novalidate><section class=\"step active\"><h1 align=\"center\">Basic Details</h1><div class=\"input-group\"><label for=\"gender\">Gender</label> <select id=\"gender\" required><option value=\"\">Select Gender</option> <option value=\"male\">Male</option> <option value=\"female\">Female</option></select></div><div class=\"input-group\"><label for=\"age\">Age</label> <input type=\"number\" id=\"age\" placeholder=\"Age\" required min=\"16\" max=\"80\" step=\"1\"></div><div class=\"input-group\"><label for=\"height\">Height (cm)</label> <input type=\"number\" id=\"height\" placeholder=\"Height (cm)\" required min=\"140\" max=\"200\" step=\"1\"></div><div class=\"input-group\"><label for=\"weight\">Weight (kg)</label> <input type=\"number\" id=\"weight\" placeholder=\"Weight (kg)\" required min=\"30\" max=\"150\" step=\"1\"></div><div class=\"button-container\"><button class=\"button-primary\" onclick=\"nextStep()\">Next</button> ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">Size:  <button class=\"button-secondary\" style=\"margin-left: var(--padding); padding: 0; padding-inline: var(--padding); font-size: 0.9rem; \">Recommend Size</button> <dialog id=\"clothingSizeDialog\"><div class=\"size-recommend\"><form onsubmit=\"event.preventDefault()\" novalidate><section class=\"step active\"><h1 align=\"center\">Basic Details</h1><div class=\"input-group\"><label for=\"gender\">Gender</label> <select id=\"gender\" required><option value=\"\">Select Gender</option> <option value=\"male\">Male</option> <option value=\"female\">Female</option></select></div><div class=\"input-group\"><label for=\"age\">Age</label> <input type=\"number\" id=\"age\" placeholder=\"Age\" required min=\"16\" max=\"80\" step=\"1\"></div><div class=\"input-group\"><label for=\"height\">Height (cm)</label> <input type=\"number\" id=\"height\" placeholder=\"Height (cm)\" required min=\"140\" max=\"200\" step=\"1\"></div><div class=\"input-group\"><label for=\"weight\">Weight (kg)</label> <input type=\"number\" id=\"weight\" placeholder=\"Weight (kg)\" required min=\"30\" max=\"150\" step=\"1\"></div><div class=\"button-container\"><button class=\"button-primary\" onclick=\"nextStep()\">Next</button> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -255,7 +255,7 @@ func Item(product models.Product, stock map[string]int) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "</div><span><button id=\"buy-button\" class=\"button-primary\" hx-include=\"closest form\" hx-get=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "</div><span style=\"margin-bottom: 2rem;\"><button id=\"buy-button\" class=\"button-primary\" hx-include=\"closest form\" hx-get=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

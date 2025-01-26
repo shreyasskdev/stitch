@@ -20,11 +20,11 @@ templ Item(product models.Product, stock map[string]int) {
                 <h1 style="font-weight: 600;" class="no-line-height">{product.Name}</h1>
             </span>
             <span style="gap: 2px;">
-                <p style="font-weight: 600;" class="no-line-height">&#8360;. {fmt.Sprintf("%d",product.Price)}</p>
+                <p style="font-weight: 400; font-size: 2rem;" class="no-line-height">&#8360;. {fmt.Sprintf("%d",product.Price)}</p>
                 <p>{product.Description}</p>
                 <p class="no-line-height" onclick={clothingSizeDialog()}>
                     Size: 
-                    <button class="button-secondary" style="margin-left: var(--padding); padding-inline: var(--padding)">help</button>
+                    <button class="button-secondary" style="margin-left: var(--padding); padding: 0; padding-inline: var(--padding); font-size: 0.9rem; ">Recommend Size</button>
                     <dialog id="clothingSizeDialog">
                         <div class="size-recommend">
                             <form onsubmit="event.preventDefault()" novalidate>
@@ -178,7 +178,7 @@ templ Item(product models.Product, stock map[string]int) {
                         </div>
                     }
                 </div>
-                <span>
+                <span style="margin-bottom: 2rem;">
                     <button 
                         id="buy-button"
                         class="button-primary" 
