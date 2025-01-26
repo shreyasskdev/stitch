@@ -23,16 +23,17 @@ templ Order(product models.Product, size string) {
                 </div>
                 <form hx-post={fmt.Sprintf("/order/%s",product.Id)}>
                     <input type="hidden" name="size" value={size} />
-                    <input type="text" name="name" placeholder="Name"/>
-                    <textarea name="address" placeholder="Adress"></textarea>
-                    <input type="text" name="house" placeholder="House no. or House name"/>
-                    <input type="text" name="pin" placeholder="Pin code"/>
-                    <input type="text" name="city" placeholder="City"/>
-                    <input type="tel" name="phone" placeholder="Phone no."/>
-                    <input type="number" name="quantity" placeholder="Quantity"/>
-                    <select name="payment" placeholder="Delivery method">
+
+                    <input type="text" name="name" placeholder="Name" required/>
+                    <textarea name="address" placeholder="Adress" required></textarea>
+                    <input type="text" name="house" placeholder="House no. or House name" required/>
+                    <input type="text" name="pin" placeholder="Pin code" pattern="\d{6}" title="Please enter a 6-digit pin code" required/>
+                    <input type="text" name="city" placeholder="City" required/>
+                    <input type="tel" name="phone" placeholder="Phone no. (e.g., +918967439823)"   pattern="\+[1-9]{1}[0-9]{1,3}[0-9]{4,14}"    title="Please enter a valid phone number with country code (e.g., +911234567890)" required/>
+                    <input type="number" name="quantity" placeholder="Quantity" value="1" min="1" max="20" required/>
+                    <select name="payment" placeholder="Delivery method" required>
+                        <option value="online" selected>Online payment</option>
                         <option value="cod">Cash on delivery</option>
-                        <option value="online">Credit card</option>
                     </select>
                     <button type="submit" class="button-primary" style="margin-top: 2rem;">Place Order</button>
                 </form>
